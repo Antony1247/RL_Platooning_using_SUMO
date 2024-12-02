@@ -60,6 +60,23 @@ Using a **multi-agent RL system**, vehicles:
 
 ---
 
+## **Clustered Vehicles Table**
+
+The table below provides a sample of clustered vehicles, including their **Vehicle ID**, **Speed**, and **Proximity to Leader**.
+
+| **Cluster** | **Vehicle ID** | **Speed (m/s)** | **Proximity to Leader (m)** |
+|-------------|----------------|-----------------|-----------------------------|
+| Platoon 0   | V101           | 20.5            | 5.2                         |
+| Platoon 0   | V102           | 20.8            | 6.1                         |
+| Platoon 0   | V103           | 21.0            | 7.0                         |
+| Platoon 1   | V201           | 18.2            | 4.8                         |
+| Platoon 1   | V202           | 18.5            | 5.4                         |
+| Platoon 1   | V203           | 18.7            | 6.0                         |
+
+These values demonstrate how vehicles are grouped into cohesive units based on their dynamic attributes, enabling efficient and safe platooning behavior.
+
+---
+
 ## **Project Workflow**
 
 ### **1. Data Clustering**
