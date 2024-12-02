@@ -9,21 +9,93 @@ This project addresses the growing demand for efficient and sustainable traffic 
 ---
 
 ## **Features**
-1. **Hierarchical Clustering**:
+1. **Parallel Reinforcement Learning Environment**:
+   - Utilizes the `ParallelEnv` class from the PettingZoo library to manage multiple platoons concurrently.
+   - Dynamically adjusts speeds and headways for each platoon in real-time.
+
+2. **Hierarchical Clustering**:
    - Groups vehicles into cohesive clusters (platoons) based on speed, proximity, and trajectory.
    - Enables real-time decision-making for traffic optimization.
    
-2. **Reinforcement Learning**:
+3. **Reinforcement Learning**:
    - Employs **Deep Q-Networks (DQN)** for vehicle control.
    - Focuses on maintaining headway, optimizing speed, and reducing emissions.
 
-3. **SUMO Simulation**:
+4. **SUMO Simulation**:
    - Provides a realistic testing ground for traffic optimization strategies.
    - Includes real-time feedback for continuous learning and adaptability.
+---
 
-4. **Environmental Benefits**:
-   - Reduces fuel consumption and emissions by minimizing stop-and-go traffic patterns.
-   - Improves urban mobility and sustainability.
+---
+
+## **Parallel Environment Implementation**
+
+### Parallel Environment Code
+We leverage the **PettingZoo** library to implement a parallel environment for multi-agent reinforcement learning. Below is an excerpt of the environment class:
+
+```python
+from pettingzoo import ParallelEnv
+import numpy as np
+import gymnasium as gym
+from gymnasium import spaces
+import traci
+from sumolib import checkBinary
+
+class PlatooningParallelEnv(ParallelEnv):
+    metadata = {'render_modes': ['human'], 'name': "platooning_v2"}
+
+    def __init__(self):
+        super().__init__()
+
+        self.num_platoons = 2  # Number of platoons
+        self.agents = [f"platoon_{i}_follower" for i in range(self.num_platoons)]
+        self.possible_agents = self.agents.copy()
+
+        self.action_spaces = {agent: spaces.Discrete(3) for agent in self.agents}
+        self.observation_spaces = {
+            agent: spaces.Box(low=np.array([0, 0]), high=np.array([50, 200]), dtype=np.float32) for agent in self.agents
+        }
+
+        self.STEPS = 0
+        self.sumo_binary = checkBinary('sumo-gui')
+        traci.start([self.sumo_binary, "-c", "./maps/singlelane/singlelane.sumocfg", "--tripinfo-output", "tripinfo.xml"])
+
+        self.vehicles = self.initialize_vehicles()
+
+    def initialize_vehicles(self):
+        # Initialize platoon vehicles
+        pass
+
+    def step(self, actions):
+        # Execute actions for each platoon and update the environment
+        pass
+
+    def observe(self, agent):
+        # Return observation for the agent
+        pass
+
+    def calculate_reward(self, agent):
+        # Calculate reward based on headway and other metrics
+        pass
+```
+---
+
+## **Key Features of the Parallel Environment**
+
+### **Multi-Platoon Management**
+- Each platoon operates as an independent agent, making the environment suitable for parallel multi-agent RL algorithms.
+
+### **Dynamic Speed Adjustment**
+- Leaders and followers adjust speeds to maintain optimal headway and ensure smooth traffic flow.
+
+### **Reward System**
+- Encourages maintaining safe and efficient headways between vehicles.
+
+### **Action Space**
+- Each agent can accelerate, decelerate, or maintain speed.
+
+### **Observation Space**
+- Includes vehicle speed and headway (distance to the vehicle ahead).
 
 ---
 
@@ -60,8 +132,6 @@ The table below provides a sample of clustered vehicles, including their **Vehic
 | Platoon 1   | V201           | 18.2            | 4.8                         |
 | Platoon 1   | V202           | 18.5            | 5.4                         |
 | Platoon 1   | V203           | 18.7            | 6.0                         |
-
-These values demonstrate how vehicles are grouped into cohesive units based on their dynamic attributes, enabling efficient and safe platooning behavior.
 
 ---
 
