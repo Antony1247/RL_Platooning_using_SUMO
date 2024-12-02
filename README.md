@@ -8,18 +8,6 @@ This project addresses the growing demand for efficient and sustainable traffic 
 
 ---
 
-## **Motivation**
-
-Modern urban areas face numerous challenges due to:
-1. Increasing traffic congestion.
-2. Inefficient traffic light systems.
-3. High fuel consumption and emissions.
-4. Frequent traffic delays.
-
-To tackle these issues, we integrate **platooning models** (grouping vehicles for coordinated movement) with advanced machine learning techniques. The project simulates traffic scenarios and optimizes vehicle movements using reinforcement learning to ensure adaptive and dynamic decision-making.
-
----
-
 ## **Features**
 1. **Hierarchical Clustering**:
    - Groups vehicles into cohesive clusters (platoons) based on speed, proximity, and trajectory.
